@@ -1,15 +1,23 @@
 package controller
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"github.com/danangkonang/gin-rest-api/entity"
+	"github.com/danangkonang/gin-rest-api/service"
 )
 
-func GetUsers(c *gin.Context) {
-	// name := c.Param("name")
-	// action := c.Param("action")
-	// message := name + " is " + action
-	// c.String(http.StatusOK, message)
-	c.JSON(http.StatusOK, "users")
+type UserController interface {
+	FindAllUser() []entity.User
+}
+
+type controller struct {
+	service service.UserService
+}
+
+func New(userService service.UserService) UserController {
+	return &controller{
+		service: userService,
+	}
+}
+func (c *controller) FindAllUser() []entity.User {
+	return c.service.FindAllUser()
 }

@@ -7,11 +7,11 @@ var (
 )
 
 func Run() {
-	getRoutes()
+	routes()
 	router.Run(":5000")
 }
 
-func getRoutes() {
+func routes() {
 	v1 := router.Group("/v1")
 	UserRoutes(v1)
 }
