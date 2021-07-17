@@ -8,7 +8,7 @@ import (
 type UserService interface {
 	FindAllUser() []entity.User
 	SaveUser(users entity.User) entity.User
-	DeleteUser(users entity.User) entity.User
+	DeleteUser(users entity.User)
 	UpdateUser(users entity.User) entity.User
 	DetailUser(users entity.User) entity.User
 }
@@ -32,9 +32,8 @@ func (u *userService) SaveUser(users entity.User) entity.User {
 	return users
 }
 
-func (u *userService) DeleteUser(users entity.User) entity.User {
+func (u *userService) DeleteUser(users entity.User) {
 	u.repository.DeleteUser(&users)
-	return users
 }
 
 func (u *userService) UpdateUser(users entity.User) entity.User {
@@ -43,6 +42,6 @@ func (u *userService) UpdateUser(users entity.User) entity.User {
 }
 
 func (u *userService) DetailUser(users entity.User) entity.User {
-	u.repository.FindUserById(&users)
-	return users
+	res := u.repository.FindUserById(users)
+	return res
 }

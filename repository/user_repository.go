@@ -11,7 +11,7 @@ type Repository interface {
 	SaveUser(user entity.User)
 	UpdateUser(user *entity.User)
 	DeleteUser(user *entity.User)
-	FindUserById(user *entity.User)
+	FindUserById(user entity.User) entity.User
 }
 
 type Db struct {
@@ -41,13 +41,14 @@ func (d *Db) SaveUser(users entity.User) {
 }
 
 func (d *Db) DeleteUser(users *entity.User) {
-	d.conn.Create(&users)
+	d.conn.Delete(&users)
 }
 
 func (d *Db) UpdateUser(users *entity.User) {
-	d.conn.Create(&users)
+	d.conn.Save(&users)
 }
 
-func (d *Db) FindUserById(users *entity.User) {
-	d.conn.Create(&users)
+func (d *Db) FindUserById(users entity.User) entity.User {
+	d.conn.Find(&users, users.Id)
+	return users
 }

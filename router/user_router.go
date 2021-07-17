@@ -10,8 +10,8 @@ import (
 func UserRoutes(rg *gin.RouterGroup) {
 	rest := controller.New(service.New(repository.NewRepository()))
 	rg.GET("/users", rest.FindAllUser)
-	rg.POST("/users", rest.SaveUser)
-	rg.PUT("/users", rest.UpdateUser)
-	rg.DELETE("/users", rest.DeleteUser)
-	rg.GET("/user", rest.DetailUser)
+	rg.POST("/user", rest.SaveUser)
+	rg.PUT("/user", rest.UpdateUser)
+	rg.DELETE("/user/:id", rest.DeleteUser)
+	rg.GET("/user/:id", rest.DetailUser)
 }
