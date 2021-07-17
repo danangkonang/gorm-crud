@@ -3,21 +3,40 @@ package controller
 import (
 	"github.com/danangkonang/gin-rest-api/entity"
 	"github.com/danangkonang/gin-rest-api/service"
+	"github.com/gin-gonic/gin"
 )
 
-type UserController interface {
-	FindAllUser() []entity.User
-}
-
-type controller struct {
+type UserController struct {
 	service service.UserService
 }
 
-func New(userService service.UserService) UserController {
-	return &controller{
+func New(userService service.UserService) *UserController {
+	return &UserController{
 		service: userService,
 	}
 }
-func (c *controller) FindAllUser() []entity.User {
-	return c.service.FindAllUser()
+
+func (c *UserController) FindAllUser(ctx *gin.Context) {
+	ctx.JSON(200, gin.H{
+		"status":  200,
+		"message": "success",
+		"data":    c.service.FindAllUser(),
+	})
+}
+
+func (c *UserController) SaveUser(ctx *gin.Context) {
+	var usr entity.User
+	if err := ctx.ShouldBindJSON(&usr); err != nil {
+		ctx.JSON(200, gin.H{
+			"status":  200,
+			"message": err.Error(),
+		})
+		return
+	}
+	ctx.BindJSON(&usr)
+	ctx.JSON(200, gin.H{
+		"status":  200,
+		"message": "success",
+		"data":    c.service.SaveUser(usr),
+	})
 }

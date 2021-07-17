@@ -8,6 +8,10 @@ import (
 
 type Repository interface {
 	FindUsers() []entity.User
+	SaveUser(user entity.User)
+	UpdateUser(user *entity.User)
+	DeleteUser(user *entity.User)
+	FindUserById(user *entity.User)
 }
 
 type Db struct {
@@ -15,15 +19,7 @@ type Db struct {
 }
 
 func NewRepository() Repository {
-	// fmt.Sprintf(
-	// 	"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-	// 	"",
-	// 	"",
-	// 	"",
-	// 	"",
-	// 	"",
-	// )
-	dsn := "gorm:gorm@tcp(localhost:9910)/gorm?charset=utf8&parseTime=True&loc=Local"
+	dsn := "danang:danang@tcp(localhost:3306)/belajar_gin?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("error")
@@ -38,4 +34,20 @@ func (d *Db) FindUsers() []entity.User {
 	var users []entity.User
 	d.conn.Find(&users)
 	return users
+}
+
+func (d *Db) SaveUser(users entity.User) {
+	d.conn.Create(&users)
+}
+
+func (d *Db) DeleteUser(users *entity.User) {
+	d.conn.Create(&users)
+}
+
+func (d *Db) UpdateUser(users *entity.User) {
+	d.conn.Create(&users)
+}
+
+func (d *Db) FindUserById(users *entity.User) {
+	d.conn.Create(&users)
 }
